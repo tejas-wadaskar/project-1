@@ -8,17 +8,40 @@ pipeline {
         }
         stage ('build'){
             steps{ 
-                echo "Building the application..."
+                sh '''
+                    cd FlightReservationApplication
+                    mvn clean package 
+                '''
             }
         }
         stage('QA-Test'){
             steps{
-                echo "Running QA tests..."
+                withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonar token ') {
+                sh '''
+                    cd FlightReservationApplication
+                    mvn sonar:sonar -Dsonar.projectKey=flightbackend
+
+                  '''
+                }
+            }
+        }
+
+        stage('docker'){
+            steps{
+                sh '''
+                    cd FlightReservationApplication
+                    docker build -t tejaswadaskar/flightbackend:latest .
+                    docker push tejaswadaskar/flightbackend:latest
+                    docker rmi tejaswadaskar/flightbackend:latest
+                '''
             }
         }
         stage('deploy'){
             steps{
-                echo "deploying image..."
+                sh '''
+                    cd FlightReservationApplication
+                    kubectl apply -f k8s/*
+                '''
             }
         }
 
