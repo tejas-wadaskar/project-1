@@ -16,12 +16,13 @@ pipeline {
         }
         stage('QA-Test'){
             steps{
-                withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonar-token') {
-                sh '''
-                    cd FlightReservationApplication
-                    mvn sonar:sonar -Dsonar.projectKey=flightbackend
-
-                  '''
+                    withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonar-token') {
+                        sh '''
+                            cd FlightReservationApplication
+                            mvn sonar:sonar -Dsonar.projectKey=flighbapp 
+                         '''
+                    }
+            
                 }
             }
         }
