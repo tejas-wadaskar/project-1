@@ -21,7 +21,7 @@ pipeline {
                             cd FlightReservationApplication
                             mvn sonar:sonar -Dsonar.projectKey=flighbapp 
                          '''
-                    }
+                    
             
                 }
             }
