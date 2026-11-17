@@ -9,12 +9,20 @@ pipeline {
         }
         stage ('build'){
             steps{ 
-                  echo "Building the project"
+                  sh '''
+                    cd FlightReservationApplication
+                    mvn clean package 
+              '''
             }
         }
         stage('QA-Test'){
             steps{
-                    echo "Running QA Tests"
+                    withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonartoken') {
+                    sh '''
+                        cd FlightReservationApplication
+                        mvn sonar:sonar -Dsonar.projectKey=flight-reservation-backend
+                    '''
+                    }
                 
                 }
             }
