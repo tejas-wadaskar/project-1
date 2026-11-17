@@ -39,7 +39,9 @@ pipeline {
             stage('K8s-Deployment'){
                 steps{
                     sh '''
-                       sh 'cd FlightReservationApplication && kubectl apply -R -f k8s/'
+                        cd FlightReservationApplication
+                        kubectl apply -f k8s/deployment.yaml
+                        kubectl apply -f k8s/service.yaml
                     '''
                 }
         }
