@@ -8,25 +8,19 @@ pipeline {
         }
         stage ('build'){
             steps{ 
-                echo "Building the project"
+                  echo "Building the project"
             }
         }
         stage('QA-Test'){
             steps{
-                echo "Running QA Tests"
-            
+                    echo "Running QA Tests"
+                
                 }
-            }
-        }
-
-        stage('docker'){
-            steps{
-                echo "Building docker image"
             }
         }
         stage('deploy'){
             steps{
-                echo "Deploying the application"
+                   echo "Deploying the application"
             }
         }
 
