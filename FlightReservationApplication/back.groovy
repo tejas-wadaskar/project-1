@@ -26,6 +26,23 @@ pipeline {
                 
                 }
             }
+            stage('Docker'){
+                steps{
+                    sh '''
+                        cd FlightReservationApplication
+                        docker build -t tejaswadaskar/flightreservation-backend-20:latest .
+                        docker push tejaswadaskar/flightreservation-backend-20:latest
+                        docker rmi tejaswadaskar/flightreservation-backend-20:latest
+                    '''
+                }
+            }
+            stage('K8s-Deployment'){
+                steps{
+                    sh '''
+                        cd FlightReservationApplication
+                        kubectl apply -f k8s/*
+                    '''
+                }
         }
         
 
